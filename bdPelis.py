@@ -34,21 +34,23 @@ def ingresarGen():
     generos.add(genero)
 #Funcion para agregar pelicula
 def ingresarPel():
-    pel = input("Ingrese el nombre del Genero: ")
+    pel = input("Ingrese el nombre de la pelicula: ")
     pelicula = db.nodes.create(nombrePel=pel)
     peliculas.add(pelicula)
 #Funcion para agregar Actor
 def ingresarAct():
-    act = input("Ingrese el nombre del Genero: ")
+    act = input("Ingrese el nombre del actor: ")
     actor = db.nodes.create(nombreAct=act)
     actores.add(actor)
 #Gustavo este es el que hay que cambiar para que sea alreves
 #Funcion para relacionar peliculas con generos
 def relacionPel_Gen():
-     gen1 = input("Ingrese el genero: ")
-     pel1 = input("Ingrese la pelicula: ")
+     genero = input("Ingrese el genero: ")
+     peli = input("Ingrese la pelicula: ")
      try: 
-         (generos.get(nombreGen=gen)[0]).relationships.create("pertenece", peliculas.get(nombrePel=pell)[0])
+         
+         
+         (generos.get(nombreGen=genero)[0]).relationships.create("pertenece", peliculas.get(nombrePel=peli)[0])
         
      except:
          print("No existe algun paciente de los dos o esta mal escrito")
@@ -97,7 +99,7 @@ def consultarAct():
 def consultarPel_Gen():
     gen3 = input("Ingrese el genero que desea buscar: ")
     try:
-         query = "MATCH (p:Peliculas{nombrePel:'"+gen3+"'})-[:pertenece]->(d:Generos) return d"
+         query = "MATCH (p:Generos{nombreGen:'"+gen3+"'})-[:pertenece]->(d:Peliculas) return d"
          results = db.query(query, data_contents=True)
          a = results.rows
          b = []
@@ -113,9 +115,9 @@ def consultarPel_Gen():
          print(" ")
 #Funcion para consultar pelicula por medio de su actor    
 def consultarPel_Act():
-    gen3 = input("Ingrese el genero que desea buscar: ")
+    gen4 = input("Ingrese el genero que desea buscar: ")
     try:
-         query = "MATCH (p:Actores{nombreAct:'"+gen3+"'})-[:actua*1..2]->(d:Peliculas{nombrePel:'"+pel3+"'}) return d"
+         query = "MATCH (p:Actores{nombreAct:'"+gen4+"'})-[:actua]->(d:Peliculas) return d"
          results = db.query(query, data_contents=True)
          a = results.rows
          b = []
@@ -132,7 +134,7 @@ def consultarPel_Act():
 
 #Ciclo principal para menu  
 opcion = 0
-while (opcion != 8):
+while (opcion != 10):
 	# Mostramos el menu
 	menu()
  
@@ -157,7 +159,4 @@ while (opcion != 8):
 		consultarPel_Gen()
 	elif opcion==9:
 		consultarPel_Act()
-	elif opcion==10:
-		sys.exit()
 
-                
